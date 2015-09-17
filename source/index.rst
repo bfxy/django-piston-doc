@@ -9,7 +9,6 @@ Sample code block below:
 .. code-block:: python
    :caption: models.py
 
-   # models.py
    class Entry(models.Model):
        text = models.TextField()
        slug = models.SlugField(max_length=128, unique=True)
@@ -20,15 +19,7 @@ Sample external code below:
 
 .. literalinclude:: handlers.py
    :language: python
-   :emphasize-lines: 12,15-18
-
-   class EntryHandler(BaseHandler):
-       model = Entry
-       methods_allowed = ('GET',)
-
-       def read(self, request, slug):
-           entry = get_object_or_404(Entry, slug=slug)
-           return entry
+   :caption: handlers.py
 
 Sample external code above.           
 
