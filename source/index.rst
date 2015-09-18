@@ -15,16 +15,16 @@ What Piston does
 * supports streaming to clients
 * makes use of HTTP status codes 
 
-Getting started
-===============
 
-1. Create a handler
-2. Bind a handler to a URL
+.. raw:: html
+   
+   <a style="margin-left: 20px; margin-top: 10px; font-size: 20px;" href="docs/start.html" class="btn btn-primary">Get started</a>
 
 
-Contents:
+Contents
+========
 
 .. toctree::
    :maxdepth: 2
 
-   code
+   /docs/start

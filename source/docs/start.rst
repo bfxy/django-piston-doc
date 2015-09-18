@@ -1,5 +1,8 @@
-Some code test
-==============
+Getting started
+===============
+
+1. Create a handler
+2. Bind a handler to a URL
 
 Sample code block below: 
 
