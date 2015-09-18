@@ -1,3 +1,4 @@
+# handlers.py
 class EntryHandler(BaseHandler):
 	model = Entry
 	methods_allowed = ('GET')
