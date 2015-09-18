@@ -2,26 +2,29 @@
    sphinx-quickstart on Wed Sep 16 20:01:47 2015.
 
 Welcome to Django Piston documentation!
-================================================
+#######################################
 
-Sample code block below: 
+Piston is a Django-based mini-framework for creating RESTful APIs.
 
-.. code-block:: python
+What Piston does
+================
 
-   class Entry(models.Model):
-       text = models.TextField()
-       slug = models.SlugField(max_length=128, unique=True)
+* simple and direct way to access databases
+* includes authentication support (OAuth, Basic/Digest)
+* can respond to requests via JSON/XML/YAML/Pickle
+* supports streaming to clients
+* makes use of HTTP status codes 
 
-Sample code block above.
+Getting started
+===============
 
-Sample external code below:        
+1. Create a handler
+2. Bind a handler to a URL
 
-.. literalinclude:: handlers.py
-   :language: python
-
-Sample external code above.           
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
+
+   code
