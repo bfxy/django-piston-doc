@@ -12,8 +12,8 @@ What Piston does
 * simple and direct way to access databases
 * includes authentication support (OAuth, Basic/Digest)
 * can respond to requests via JSON/XML/YAML/Pickle
-* supports streaming to clients
-* makes use of HTTP status codes 
+* supports streaming to clients and throttling
+* makes extensive use of HTTP status codes (+ ``PUT`` and ``DELETE``) 
 
 
 .. raw:: html
