@@ -17,7 +17,7 @@ What Piston does
 * includes authentication support (OAuth, Basic/Digest)
 * can respond to requests via JSON/XML/YAML/Pickle
 * supports streaming to clients and throttling
-* makes extensive use of HTTP status codes (+ ``PUT`` and ``DELETE``) 
+* makes extensive use of HTTP status codes (including PUT and DELETE) 
 
 Getting started
 ===============
@@ -38,19 +38,23 @@ The workflow is as simple as:
 Example
 =======
 
-Suppose, there is a blog entry, which initially has *models.py*, *handlers.py* and *urls.py* like any Django projects. The blog entry contains a **text field**, and a **slug field**:
+Suppose, there is a blog entry. Like any Django project, it initially has *models.py*, *handlers.py* and *urls.py*. The entry contains a **text field** and a **slug field**, defined in *models.py*:
 
 .. code-block:: python
-   :caption: models.py
 
    class Entry(models.Model):
        text = models.TextField()
-       slug = models.SlugField(max_length=128, unique=True)
+       slug = models.SlugField(max_length=128, unique=True)       
 
-.. literalinclude:: handlers.py
-   :language: python
-   :caption: handlers.py
+.. code-block:: python
+   
+   class EntryHandler(BaseHandler):
+	model = Entry
+	methods_allowed = ('GET')
 
+	def read(self, request, slug):
+		entry = get_object_or_404(Entry, slug=slug)
+		return entry
 
 In this example, Piston maps the ``GET`` request directly to the a method in the handler, in this case the ``read`` method. Similarly, you can map ``PUT`` request directly to ``update()`` method, ``POST`` — to ``create``, and ``DELETE`` — to ``delete()``.
 
@@ -112,5 +116,3 @@ Streaming — video, chat app, google docs, OAuth support and shit.
 .. toctree::
    :maxdepth: 2
    :hidden:
-
-   /docs/start
