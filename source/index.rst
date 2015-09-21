@@ -13,11 +13,11 @@ Piston is a Django-based mini-framework for creating RESTful APIs.
 What Piston does
 ================
 
-* Simple and direct way to access databases
+* Provides clients a simple and direct way to access databases via URL 
 * Includes authentication support (OAuth, Basic/Digest)
-* Can respond to requests via JSON/XML/YAML/Pickle
-* Supports streaming to clients and throttling
-* Makes extensive use of HTTP status codes (including PUT and DELETE) 
+* Allows to create custom emitters that respond to requests via JSON/XML/YAML/Pickle and other
+* Supports streaming and throttling
+* Makes extensive use of HTTP status codes (including PUT and DELETE)
 
 Getting started
 ===============
@@ -37,9 +37,9 @@ The workflow is simple and twofold:
 Example
 =======
 
-Suppose, we need to access a blog entry in our database. Like any other Django project, the blog contains the database description in *models.py*, handlers requesting resources from the database in *handlers.py*, and URLs mapped to the handlers in *urls.py*.
+Suppose, we need to access a blog entry in our database. Like any other Django project, the blog contains  database description in *models.py*, handlers requesting resources from the database in *handlers.py*, and URLs mapped to the handlers in *urls.py*.
 
-The entry contains a **text field** and a **slug field** defined in *models.py*:
+The entry belongs to an ``Entry`` model with a ``text`` field and a ``slug`` field, all defined in *models.py*:
 
 .. code-block:: python
 
@@ -47,7 +47,7 @@ The entry contains a **text field** and a **slug field** defined in *models.py*:
        text = models.TextField()
        slug = models.SlugField(max_length=128, unique=True)       
 
-In *handlers.py*, we have a 
+In *handlers.py*, we define a handler that allows a ``GET`` request to the ``Entry`` model: 
 
 .. code-block:: python
    
@@ -59,7 +59,7 @@ In *handlers.py*, we have a
 		entry = get_object_or_404(Entry, slug=slug)
 		return entry
 
-In this example, Piston maps the ``GET`` request directly to the method in the handler, in this case the ``read`` method. Similarly, you can map ``PUT`` request directly to ``update`` method, ``POST`` — to ``create``, and ``DELETE`` — to ``delete``.
+Piston maps HTTP requests directly to the method in the handler. In the example, Piston maps the ``GET`` request to the ``read`` method. Similarly, ``PUT`` request ties directly to ``update`` method, ``POST`` ties to ``create`` method, and ``DELETE`` ties to ``delete`` method.
 
 Easy way of manipulating data from an API.              
 Reutrns not the HTTP request, but just the **entry** that we retrieved from database.
