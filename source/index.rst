@@ -43,7 +43,7 @@ Example
 
 Suppose, we need to access a blog entry in our database. Like any other Django project, the blog contains  database description in *models.py*, handlers requesting resources from the database in *handlers.py*, and URLs mapped to the handlers in *urls.py*.
 
-The **entry** resides in the ``Entry`` model, and has a ``text`` field and a ``slug`` field, all defined in *models.py*:
+The **entry** resides in the ``Entry`` model, and has ``text`` field and ``slug`` field, all defined in *models.py*:
 
 .. code-block:: python
 
