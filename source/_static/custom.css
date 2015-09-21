@@ -1,5 +1,7 @@
-div .navbar {
-	background-color: #2B3E50;
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,700,400italic);
+
+.navbar-iverse {
+	background-color: #202020;
 	border-color: #2B3E50;
 }
 
@@ -8,7 +10,7 @@ div .navbar {
 }
 
 pre {
-	background-color: #fff;
+	background-color: #FBFBFF;
 	font-size: 12px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;

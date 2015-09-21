@@ -13,11 +13,11 @@ Piston is a Django-based mini-framework for creating RESTful APIs.
 What Piston does
 ================
 
-* simple and direct way to access databases
-* includes authentication support (OAuth, Basic/Digest)
-* can respond to requests via JSON/XML/YAML/Pickle
-* supports streaming to clients and throttling
-* makes extensive use of HTTP status codes (including PUT and DELETE) 
+* Simple and direct way to access databases
+* Includes authentication support (OAuth, Basic/Digest)
+* Can respond to requests via JSON/XML/YAML/Pickle
+* Supports streaming to clients and throttling
+* Makes extensive use of HTTP status codes (including PUT and DELETE) 
 
 Getting started
 ===============
@@ -29,22 +29,25 @@ Getting started
 Workflow
 ========
 
-The workflow is as simple as: 
+The workflow is simple and twofold: 
 
-1. Create a handler 
-2. Bind a handler to a URL
-3. Go places
+1. Create a handler
+2. Map a handler to a URL
 
 Example
 =======
 
-Suppose, there is a blog entry. Like any Django project, it initially has *models.py*, *handlers.py* and *urls.py*. The entry contains a **text field** and a **slug field**, defined in *models.py*:
+Suppose, we need to access a blog entry in our database. Like any other Django project, the blog contains the database description in *models.py*, handlers requesting resources from the database in *handlers.py*, and URLs mapped to the handlers in *urls.py*.
+
+The entry contains a **text field** and a **slug field** defined in *models.py*:
 
 .. code-block:: python
 
    class Entry(models.Model):
        text = models.TextField()
        slug = models.SlugField(max_length=128, unique=True)       
+
+In *handlers.py*, we have a 
 
 .. code-block:: python
    
@@ -56,17 +59,18 @@ Suppose, there is a blog entry. Like any Django project, it initially has *model
 		entry = get_object_or_404(Entry, slug=slug)
 		return entry
 
-In this example, Piston maps the ``GET`` request directly to the a method in the handler, in this case the ``read`` method. Similarly, you can map ``PUT`` request directly to ``update()`` method, ``POST`` — to ``create``, and ``DELETE`` — to ``delete()``.
+In this example, Piston maps the ``GET`` request directly to the method in the handler, in this case the ``read`` method. Similarly, you can map ``PUT`` request directly to ``update`` method, ``POST`` — to ``create``, and ``DELETE`` — to ``delete``.
 
 Easy way of manipulating data from an API.              
 Reutrns not the HTTP request, but just the **entry** that we retrieved from database.
 
+In *urls.py*, 
+
 .. code-block:: python
-   :caption: urls.py
 
    entry = Resource(handler=Entry)
 
-   urlpatterns += patterns(",
+   urlpatterns += patterns('',
        url(
        	r'entries/(?P<slug>[\w-_]+)/', 
        	entry_resource, 
@@ -75,11 +79,14 @@ Reutrns not the HTTP request, but just the **entry** that we retrieved from data
 
 The client will get a JSON object that is based on the entry data. 
 
-This allows to: 
+Request format
+==============
+
+This allows a client to retrieve the entry over a neat request: 
 
 * ``GET`` ``/entry/<slug>/``
   
-You can define a format in a query string. If you don't want JSON (default), then you can set, for example, YAML (also XML and Tickle):   
+You can also define the output format in a query string. Apart from JSON (default), Piston supports YAML, XML, and Tickle. Add the ``format`` parameter to the request string:   
 
 * ``GET`` ``/entry/<slug>/?format=YAML``
 
