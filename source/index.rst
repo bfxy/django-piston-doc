@@ -41,7 +41,7 @@ Example
 
 .. _example:
 
-Suppose, we need to access a blog entry in our database. Like any other Django project, the blog contains  database description in *models.py*, handlers requesting resources from the database in *handlers.py*, and URLs mapped to the handlers in *urls.py*.
+Suppose, we need to access a blog entry in our database. Like any other Django project, the blog contains database description in *models.py*, handlers requesting resources from the database in *handlers.py*, and URLs mapped to handlers in *urls.py*.
 
 The **entry** resides in the ``Entry`` model, and has ``text`` field and ``slug`` field, all defined in *models.py*:
 
@@ -51,19 +51,12 @@ The **entry** resides in the ``Entry`` model, and has ``text`` field and ``slug`
        text = models.TextField()
        slug = models.SlugField(max_length=128, unique=True)       
 
-*handlers.py* defines handlers that allow certain HTTP requests towards the ``Entry`` model: 
+*handlers.py* defines handlers that allow certain HTTP requests towards the ``Entry`` model:
 
-.. code-block:: python
-   
-   class EntryHandler(BaseHandler):
-	model = Entry
-	methods_allowed = ('GET')
+.. literalinclude:: handlers.py
+   :language: python 
 
-	def read(self, request, slug):
-		entry = get_object_or_404(Entry, slug=slug)
-		return entry
-
-Piston maps HTTP requests directly to the method in the handler. In the example, the handler allows only ``GET`` request and maps it directly to the ``read`` method. Similarly, ``PUT`` request is mapped to ``update`` method, ``POST`` is mapped to ``create`` method, and ``DELETE`` is mapped to ``delete`` method. 
+Piston maps HTTP requests directly to the method in the handler. In the example, the handler allows ``GET`` request uniquely and maps it directly to ``read`` method. Similarly, ``PUT`` request is mapped to ``update`` method, ``POST`` is mapped to ``create`` method, and ``DELETE`` is mapped to ``delete`` method. 
 
 *urls.py* maps the handler to the URL pattern for the request:
 
@@ -74,14 +67,14 @@ Piston maps HTTP requests directly to the method in the handler. In the example,
    urlpatterns += patterns('',
        url(r'entries/(?P<slug>[\w-_]+)/', entry_resource, name='entry_url'))
 
-As a result, this example allows the client to retrieve a blog entry in JSON format over the request: ``GET /entry/<slug>/``.   	
+This will allow the client to retrieve a blog entry in JSON format over the request: ``GET /entry/<slug>/``.   	
 
 Response
 ========
 
-The handler does not return an HTTP response, but returns the **entry** itself. Piston returns responses using emitters. The default emitter uses JSON, however Piston also supports YAML, XML, and Pickle. You can define the format in the :ref:`query string<request>`. 
+The handler does not return an HTTP response, but returns the **entry** itself. Piston responds using emitters. The default emitter uses JSON, however Piston also supports YAML, XML, and Pickle. You can define the format in the :ref:`query string<request>`. 
 
-You can use Pison with not just models, but with any data that you wish to retrieve via API, as long as the data in the response is serializable.
+You can use Pison with not just models, but with any data you wish to retrieve via API, as long as the data is serializable.
 
 Request
 =======
@@ -100,9 +93,9 @@ To define the output format, add the ``format`` parameter to the query string:
 Status codes
 ============
 
-Piston allows handlers to respond with HTTP status codes in certain situations. 
+Piston allows handlers to respond with HTTP status codes in certain situations.
 
-Say, we have to call a ``create`` method to add an item into the database. If the item already exists, the method below will return ``rc.DUPLICATE_ENTRY``, which stands for ``409 Conflict/Duplicate``. If the item does not exist, the method will create the item:
+Say, we have to call a ``create`` method to add an item to the database. If the item already exists, the method below will return ``rc.DUPLICATE_ENTRY``, which stands for ``409 Conflict/Duplicate``. If the item does not exist, the method will create the item:
 
 .. code-block:: python
 
