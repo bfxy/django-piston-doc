@@ -13,7 +13,7 @@ Piston is a Django-based mini-framework for creating RESTful APIs.
 What Piston does
 ================
 
-* Provides a simple and direct way to access databases (models) via URL 
+* Provides a simple and direct way to access databases (models) via URL
 * Includes authentication support (OAuth, Basic/Digest)
 * Allows to create custom emitters that respond to requests via JSON/XML/YAML/Pickle
 * Supports streaming and throttling
@@ -24,14 +24,14 @@ Getting started
 
 Download the `latest version <https://pypi.python.org/pypi/django-piston/0.2.3>`_.
 
-.. .. raw:: html 
-   
+.. raw:: html
+
    <a style="margin-left: 20px; /*margin-top: 10px; font-size: 20px;*/" href="https://pypi.python.org/pypi/django-piston/0.2.3" class="btn btn-primary">Get Piston</a>
 
 Workflow
 ========
 
-The workflow is simple and twofold: 
+The workflow is simple and twofold:
 
 1. Create a handler
 2. Bind a handler to a URL
@@ -49,14 +49,14 @@ The **entry** resides in the ``Entry`` model, and has ``text`` field and ``slug`
 
    class Entry(models.Model):
        text = models.TextField()
-       slug = models.SlugField(max_length=128, unique=True)       
+       slug = models.SlugField(max_length=128, unique=True)
 
 *handlers.py* defines handlers that allow certain HTTP requests towards the ``Entry`` model:
 
 .. literalinclude:: handlers.py
-   :language: python 
+   :language: python
 
-Piston maps HTTP requests directly to the method in the handler. In the example, the handler allows ``GET`` request uniquely and maps it directly to ``read`` method. Similarly, ``PUT`` request is mapped to ``update`` method, ``POST`` is mapped to ``create`` method, and ``DELETE`` is mapped to ``delete`` method. 
+Piston maps HTTP requests directly to the method in the handler. In the example, the handler allows ``GET`` request uniquely and maps it directly to ``read`` method. Similarly, ``PUT`` request is mapped to ``update`` method, ``POST`` is mapped to ``create`` method, and ``DELETE`` is mapped to ``delete`` method.
 
 *urls.py* maps the handler to the URL pattern for the request:
 
@@ -67,28 +67,28 @@ Piston maps HTTP requests directly to the method in the handler. In the example,
    urlpatterns += patterns('',
        url(r'entries/(?P<slug>[\w-_]+)/', entry_resource, name='entry_url'))
 
-This will allow the client to retrieve a blog entry in JSON format over the request: ``GET /entry/<slug>/``.   	
-
-Response
-========
-
-The handler does not return an HTTP response, but returns the **entry** itself. Piston responds using emitters. The default emitter uses JSON, however Piston also supports YAML, XML, and Pickle. You can define the format in the :ref:`query string<request>`. 
-
-You can use Pison with not just models, but with any data you wish to retrieve via API, as long as the data is serializable.
+This will allow the client to retrieve a blog entry in JSON format over the request: ``GET /entry/<slug>/``.
 
 Request
 =======
 
-The code in the :ref:`example <example>` allows a client to retrieve the **entry** over a neat request: 
+The code in the :ref:`example <example>` allows a client to retrieve the **entry** over a neat request:
 
 * ``GET`` ``/entry/<slug>/``
-  
+
 To define the output format, add the ``format`` parameter to the query string:
 
 .. _request:
 
 * ``GET`` ``/entry/<slug>/?format=YAML``
- 
+
+Response
+========
+
+The handler does not return an HTTP response, but returns the **entry** itself. Piston responds using emitters. The default emitter uses JSON, however Piston also supports YAML, XML, and Pickle. You can define the format in the :ref:`query string<request>`.
+
+You can use Pison with not just models, but with any data you wish to retrieve via API, as long as the data is serializable.
+
 
 Status codes
 ============
@@ -105,10 +105,10 @@ Say, we have to call a ``create`` method to add an item to the database. If the 
        else:
            return Entry.objects.create(**request.POST)
 
-Similarly, the successfully called ``delete`` method will return ``rc.DELETED``, which stands for ``204 Empty body``:       
+Similarly, the successfully called ``delete`` method will return ``rc.DELETED``, which stands for ``204 Empty body``:
 
 .. code-block:: python
-   
+
    def delete(self, request, slug):
        entry = get_object_or_404(Entry, slug=slug)
        entry.delete
